@@ -13,7 +13,7 @@ class CreateProductAttributeValueTable extends Migration
      */
     public function up()
     {
-        Schema::create('product_attribute_value', function (Blueprint $table) {
+        Schema::create('product_attribute_values', function (Blueprint $table) {
             $table->id();
             $table->foreignId('product_id');
             $table->foreignId('attribute_id');
@@ -29,6 +29,6 @@ class CreateProductAttributeValueTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('product_attribute_value');
+        Schema::dropIfExists('product_attribute_values');
     }
 }
