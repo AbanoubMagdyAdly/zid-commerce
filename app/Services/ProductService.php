@@ -13,8 +13,7 @@ class ProductService {
         return Product::create([
             'price'=> $product->price,
             'is_tax_included'=> $product->is_tax_included,
-            'quantity'=> $product->quantity,
-            'weight'=> $product->weight,
+            'shipping_cost'=> $product->shipping_cost,
             'tax_percentage'=> $product->tax_percentage,
             'en_name'=> $product->en_name,
             'ar_name'=> $product->ar_name,

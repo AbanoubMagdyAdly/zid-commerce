@@ -20,8 +20,9 @@ class CreateProductsTable extends Migration
             $table->float('price');
             $table->boolean('is_tax_included');
             $table->integer('tax_percentage');
-            $table->integer('quantity');
-            $table->float('weight');
+            $table->float('shipping_cost')->nullable();
+            // $table->integer('quantity');
+            // $table->float('weight');
             $table->timestamps();
         });
     }

@@ -9,6 +9,7 @@ use App\Models\Tenants\Product;
 use App\Models\Tenants\Attribute;
 use Illuminate\Support\Facades\Route;
 use App\Models\Tenants\ProductAttributeValue;
+use App\Http\Controllers\Tenant\AuthController;
 use App\Http\Controllers\Tenant\CartController;
 use App\Http\Controllers\Tenant\ProductController;
 use App\Http\Controllers\Tenant\AttributeController;
@@ -37,19 +38,34 @@ Route::middleware([
         return tenant();
     });
 
+
+    Route::group([
+        'middleware' => 'api',
+        'prefix' => 'auth'
+    ], function ($router) {
+        Route::post('login', [AuthController::class, 'login'])->name('login');
+        Route::post('register', [AuthController::class, 'register'])->name('register');
+        Route::post('logout', [AuthController::class, 'logout']);
+        Route::post('refresh', [AuthController::class, 'refresh']);
+        Route::post('me', [AuthController::class, 'me']);
+    });
+
     Route::get('/products', [ProductController::class, 'getProducts']);
 
     Route::get('/products/{id}', [ProductController::class, 'getProduct']);
 
-    Route::post('/products', [ProductController::class, 'create']);
+    Route::middleware('auth:api')->group(function () {
 
-    Route::post('/attributes', [AttributeController::class, 'create']);
+        Route::post('/products', [ProductController::class, 'create']);
 
-    Route::get('/attributes', [AttributeController::class, 'getAttributes']);
+        Route::post('/attributes', [AttributeController::class, 'create']);
 
-    Route::post('/product-attribute-values', [ProductController::class, 'addAttributesToProduct']);
+        Route::get('/attributes', [AttributeController::class, 'getAttributes']);
 
-    Route::get('/cart', [CartController::class, 'getCart']);
+        Route::post('/product-attribute-values', [ProductController::class, 'addAttributesToProduct']);
 
-    Route::post('/cart', [CartController::class, 'addToCart']);
+        Route::get('/cart', [CartController::class, 'getCart']);
+
+        Route::post('/cart', [CartController::class, 'addToCart']);
+    });
 });

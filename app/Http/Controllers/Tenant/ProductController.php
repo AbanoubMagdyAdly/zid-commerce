@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Tenant;
 use Illuminate\Http\Request;
 use App\Services\ProductService;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\AddProductRequest;
 
 class ProductController extends Controller
 {
@@ -15,7 +16,7 @@ class ProductController extends Controller
         $this->productService = $productService;
     }
 
-    public function create(Request $request) {
+    public function create(AddProductRequest $request) {
         $product = $this->productService->create($request);
         return $this->getSuccessResponse($product);
 
