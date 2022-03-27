@@ -2,7 +2,16 @@
 
 declare(strict_types=1);
 
+use App\Models\Tenants\Cart;
+use App\Models\Tenants\User;
+use Illuminate\Http\Request;
+use App\Models\Tenants\Product;
+use App\Models\Tenants\Attribute;
 use Illuminate\Support\Facades\Route;
+use App\Models\Tenants\ProductAttributeValue;
+use App\Http\Controllers\Tenant\CartController;
+use App\Http\Controllers\Tenant\ProductController;
+use App\Http\Controllers\Tenant\AttributeController;
 use Stancl\Tenancy\Middleware\InitializeTenancyByDomain;
 use Stancl\Tenancy\Middleware\PreventAccessFromCentralDomains;
 
@@ -19,11 +28,28 @@ use Stancl\Tenancy\Middleware\PreventAccessFromCentralDomains;
 */
 
 Route::middleware([
-    'web',
+    'api',
     InitializeTenancyByDomain::class,
     PreventAccessFromCentralDomains::class,
 ])->group(function () {
     Route::get('/', function () {
-        return 'This is your multi-tenant application. The id of the current tenant is ' . tenant('id');
+        throw new ErrorException('You must');
+        return tenant();
     });
+
+    Route::get('/products', [ProductController::class, 'getProducts']);
+
+    Route::get('/products/{id}', [ProductController::class, 'getProduct']);
+
+    Route::post('/products', [ProductController::class, 'create']);
+
+    Route::post('/attributes', [AttributeController::class, 'create']);
+
+    Route::get('/attributes', [AttributeController::class, 'getAttributes']);
+
+    Route::post('/product-attribute-values', [ProductController::class, 'addAttributesToProduct']);
+
+    Route::get('/cart', [CartController::class, 'getCart']);
+
+    Route::post('/cart', [CartController::class, 'addToCart']);
 });
