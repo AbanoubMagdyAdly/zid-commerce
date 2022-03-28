@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Tenant;
 use App\Models\Tenants\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
@@ -12,7 +13,7 @@ class AuthController extends Controller
     public function register(Request $request)
     {
         $user = User::create([
-            'name' => $request->tenant_name,
+            'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'is_owner' => false
