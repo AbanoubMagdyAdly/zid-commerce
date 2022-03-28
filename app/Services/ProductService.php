@@ -30,7 +30,7 @@ class ProductService {
 
     public function addAttributesToProduct($request) {
         if($this->getProduct($request->product_id) == null){
-            throw new \Exception("Product Not Found");
+            throw new \Exception("Product Not Found", 404);
         }
         return ProductAttributeValue::create($request->all());
     }

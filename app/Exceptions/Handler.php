@@ -35,8 +35,7 @@ class Handler extends ExceptionHandler
     public function register()
     {
         $this->renderable(function (Throwable $e, $request) {
-            $responseCode = 500;
-            return response()->json(array('status' => 0, 'errors' => $e->getMessage()), $responseCode);
+            return response()->json(array('status' => 0, 'error' => $e->getMessage() ?? 'Internal Server Error'), $e->getCode() ?? 500);
         });
     }
 }
